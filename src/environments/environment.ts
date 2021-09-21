@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  backendUrl : 'cloud url....',
+  backendUrl_Dev_IIS : 'http://localhost:-----/',
+  backendUrl_Dev_Kestrel : 'https://localhost:-------/'
 };
 
 /*

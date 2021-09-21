@@ -1,0 +1,35 @@
+<form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Search word</mat-label>
+        <input matInput name="words" matInput [(ngModel)]="wordToSearch">
+        <mat-icon style="float: right;cursor: pointer;" (click)="searchWord(wordToSearch)">search</mat-icon>
+    </mat-form-field>
+</form>
+<mat-list *ngIf="wordFound" style="margin-top: 40px;">
+    <mat-list-item style="font-size: 30px">{{FoundWord}}</mat-list-item>
+    <mat-divider style="margin-top: 20px;"></mat-divider>
+    <mat-list-item class="synonymMatList">
+        <h4 style="width: 110px;">Description :&nbsp; &nbsp;</h4> {{FoundWordDescription}}
+    </mat-list-item>
+    <mat-divider style="margin-top: 20px;"></mat-divider>
+    <mat-list-item class="synonymMatList">
+        <h4 style="width: 110px;">Synonyms :</h4>
+        <mat-chip-list>
+            <ng-container *ngFor="let synonym of foundWordSynonyms">
+                <mat-chip color="primary" selected (click)="searchWord(synonym.name)">
+                    {{synonym.name}} &nbsp; &nbsp; &nbsp;
+                </mat-chip>
+            </ng-container>
+        </mat-chip-list>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item style="margin-top: 90px;">
+        <mat-slide-toggle class="example-margin" color="primary" [(ngModel)] = "showAdmin"> Admin Mode</mat-slide-toggle>
+        <ng-container *ngIf="showAdmin">
+            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+            <button mat-raised-button color="primary" (click)="addNewWord()">Add New Word</button>
+            &nbsp; &nbsp; &nbsp;
+            <button mat-raised-button color="warn" (click)="editCurrentWord()" >Edit Current Word</button>
+        </ng-container>
+    </mat-list-item>
+</mat-list>

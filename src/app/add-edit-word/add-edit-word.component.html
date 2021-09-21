@@ -1,0 +1,42 @@
+<h2 mat-dialog-title style="color: navy;" *ngIf="!isEditMode"> Add New Word</h2>
+<h2 mat-dialog-title style="color:red;" *ngIf="isEditMode"> Edit Word Details</h2>
+<mat-dialog-content class="mat-typography">
+    <br><br><br>
+    <mat-list role="list">
+        <mat-list-item role="listitem" class="marginPadding">
+            <mat-form-field appearance="fill" style="width: 50%;">
+                <mat-label>Name : </mat-label>
+                <input matInput appearance="fill" [(ngModel)]="data.wordData.name">
+            </mat-form-field>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="marginPadding">
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Description : </mat-label>
+                <textarea matInput [(ngModel)]="data.wordData.description"></textarea>
+            </mat-form-field>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="marginPadding">
+            <mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+                <mat-label>Synonyms</mat-label>
+                <mat-chip-list #synonymList aria-label="Add synonym">
+                  <mat-chip *ngFor="let synonym of data.wordData.synonyms" [removable]="removable" (removed)="remove(synonym)">
+                    {{synonym.name}}
+                    <mat-icon matChipRemove *ngIf="removable">remove</mat-icon>
+                  </mat-chip>
+                  <input placeholder="New synonym..."
+                         [matChipInputFor]="synonymList"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         [matChipInputAddOnBlur]="addOnBlur"
+                         (matChipInputTokenEnd)="addSynonym($event)">
+                </mat-chip-list>
+              </mat-form-field>
+        </mat-list-item>
+    </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="addEditWord()" *ngIf="!isEditMode">Add</button>
+    <button mat-raised-button color="warn" cdkFocusInitial (click)="addEditWord()" *ngIf="isEditMode">Edit</button>
+
+</mat-dialog-actions>
