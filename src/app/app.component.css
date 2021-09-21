@@ -1,7 +1,8 @@
 .app-footer {   
+    position: fixed;
     left:0px;
     bottom:0px;
     height:30px;
     width:100%;
-    background:#999;
+    background:rgb(201, 196, 196);
  }

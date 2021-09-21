@@ -5,7 +5,19 @@
         <mat-icon style="float: right;cursor: pointer;" (click)="searchWord(wordToSearch)">search</mat-icon>
     </mat-form-field>
 </form>
-<mat-list *ngIf="wordFound" style="margin-top: 40px;">
+
+<mat-list  *ngIf="wordSearchAndFound == -1" style="margin-top: 100px;">
+    <mat-list-item style="font-size: 17px;color: navy;">Welcome to Demo Thesaurus application. <br>
+        Search any word and we try to give you the definition and look-alikes (synonyms)... 
+        <mat-icon style="float: right;">sentiment_satisfied_alt</mat-icon>
+    </mat-list-item>
+</mat-list>
+
+<mat-list  *ngIf="wordSearchAndFound == 0" style="margin-top: 40px;">
+    <mat-list-item style="font-size: 25px;color: orange;">No data found for search.</mat-list-item>
+</mat-list>
+
+<mat-list *ngIf="wordSearchAndFound == 1" style="margin-top: 40px;">
     <mat-list-item style="font-size: 30px">{{FoundWord}}</mat-list-item>
     <mat-divider style="margin-top: 20px;"></mat-divider>
     <mat-list-item class="synonymMatList">
@@ -29,7 +41,9 @@
             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
             <button mat-raised-button color="primary" (click)="addNewWord()">Add New Word</button>
             &nbsp; &nbsp; &nbsp;
-            <button mat-raised-button color="warn" (click)="editCurrentWord()" >Edit Current Word</button>
+            <button mat-raised-button color="accent" (click)="editCurrentWord()" >Edit Current Word</button>
+            &nbsp; &nbsp; &nbsp;
+            <button mat-raised-button color="warn" (click)="deletCurrentWord()" >Delete Current Word</button>
         </ng-container>
     </mat-list-item>
 </mat-list>

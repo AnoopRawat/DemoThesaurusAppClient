@@ -3,6 +3,7 @@ export interface IWord {
     description: string;
     synonyms: ISynonym[]
   }
+  
   export interface ISynonym {
     name: string;
   }

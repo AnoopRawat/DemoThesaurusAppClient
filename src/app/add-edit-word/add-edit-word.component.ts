@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { ISynonym, IWord } from '../interfaces/iword';
+import { ISynonym, IWord } from '../interfaces/IWord';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { WordService } from '../services/word.service';
 
 @Component({
   selector: 'app-add-edit-word',
@@ -12,17 +13,12 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 export class AddEditWordComponent implements OnInit {
   isEditMode: boolean = false;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  addOnBlur = true;
-  selectable = true;
-  removable = true;
-  wordData = null;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<AddEditWordComponent>) { }
+    private dialogRef: MatDialogRef<AddEditWordComponent>,
+    private wordService: WordService) { }
 
   ngOnInit(): void {
-    this.wordData = this.data.wordData
-    console.log("word data : ", this.data.wordData)
     this.isEditMode = this.data.wordData != null;
     if (!this.isEditMode) {
       this.data.wordData = {
@@ -53,7 +49,21 @@ export class AddEditWordComponent implements OnInit {
   }
 
   addEditWord() {
-    console.log(this.data.wordData);
+    if (!this.isEditMode) {
+      this.wordService.addWord(this.data.wordData).subscribe((Response) => {
+        console.log(Response);
+      }, (err) => {
+        console.log('Error while adding word. See console for details. ')
+        console.log(err);
+      });
+    } else {
+      this.wordService.updateWord(this.data.wordData).subscribe((Response) => {
+        console.log(Response);
+      }, (err) => {
+        console.log('Error while updating word. See console for details.')
+        console.log(err);
+      });
+    }
   }
 
 }
