@@ -14,17 +14,25 @@
         Search any word and we try to give you the definition and look-alikes (synonyms)...
     </mat-list-item><br><br><br><br><br><br>
     <mat-list-item style="font-size: 15px;color: navy;">
-        Don't know meaning of Synonym ? &nbsp;&nbsp;<mat-icon>sentiment_dissatisfied</mat-icon>
+        Don't know meaning of Thesaurus. ? &nbsp;&nbsp;<mat-icon>sentiment_dissatisfied</mat-icon>
     </mat-list-item>
     <mat-list-item style="font-size: 15px;color: navy;">
-        No worries, Let's start then by searching :&nbsp;&nbsp;
-        <a style="cursor: pointer;text-decoration: underline;" (click)="searchWord('Synonym')">Synonym</a>&nbsp;&nbsp;
+        No worries, Let's start then by searching word :&nbsp;&nbsp;
+        <a style="cursor: pointer;text-decoration: underline;" (click)="searchWord('Thesaurus')">Thesaurus</a>&nbsp;&nbsp;
         <mat-icon>sentiment_satisfied_alt</mat-icon>
     </mat-list-item>
 </mat-list>
 
 <mat-list *ngIf="wordSearchAndFound == 0" style="margin-top: 40px;">
     <mat-list-item style="font-size: 25px;color: orange;">No data found.</mat-list-item>
+    <mat-list-item style="margin-top: 90px;">
+        <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="showAdmin"> Admin Mode</mat-slide-toggle>
+        <ng-container *ngIf="showAdmin">
+            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+            <button mat-raised-button color="primary" (click)="addNewWord(wordToSearch)">Add '{{wordToSearch}}' to thesaurus</button>
+        </ng-container>
+    </mat-list-item>
+
 </mat-list>
 
 <mat-list *ngIf="wordSearchAndFound == 1" style="margin-top: 40px;">
@@ -49,7 +57,7 @@
         <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="showAdmin"> Admin Mode</mat-slide-toggle>
         <ng-container *ngIf="showAdmin">
             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-            <button mat-raised-button color="primary" (click)="addNewWord()">Add New Word</button>
+            <button mat-raised-button color="primary" (click)="addNewWord('')">Add New Word</button>
             &nbsp; &nbsp; &nbsp;
             <button mat-raised-button color="accent" (click)="editCurrentWord()">Edit Current Word</button>
             &nbsp; &nbsp; &nbsp;

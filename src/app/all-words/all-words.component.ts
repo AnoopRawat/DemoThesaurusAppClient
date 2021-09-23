@@ -4,20 +4,6 @@ import { IWord } from '../interfaces/IWord';
 import { InteractionService } from '../services/interaction.service';
 import { WordService } from '../services/word.service';
 
-const DATA: IWord[] = [
-  { name: "word1", description: "decription", synonyms: [{ name: "synomys1" }, { name: "synonweym2" }] },
-
-  { name: "word2", description: "decription of word", synonyms: [{ name: "synoasdasmys1" }, { name: "synonywewewm2" }] },
-  { name: "word3", description: "decription of word", synonyms: [{ name: "synosdmys1" }, { name: "syeenonym2" }] },
-  { name: "word4", description: "decription of word", synonyms: [{ name: "dmys1" }, { name: "synonym2" }, { name: "synonym2" }] },
-  { name: "word5", description: "decription of word", synonyms: [{ name: "synosdmys1" }, { name: "nym2" }, { name: "synonym2" }] },
-  { name: "word6", description: "decription of word", synonyms: [{ name: "synomys1" }, { name: "synm2" }, { name: "synonym2" }] },
-  { name: "word7", description: "decription of word", synonyms: [{ name: "synssssomys1" }, { name: "sytttnonym2" }] },
-  { name: "word8", description: "decription of word", synonyms: [{ name: "smys1" }, { name: "synym2" }] },
-  { name: "word9", description: "decription of word", synonyms: [{ name: "syns1" }, { name: "synon  ym2" }, { name: "synonym2" }] },
-  { name: "word8", description: "decription of word", synonyms: [{ name: "synys1" }, { name: "syno 77nym2" }, { name: "synonym2" }] }
-];
-
 @Component({
   selector: 'app-all-words',
   templateUrl: './all-words.component.html',
@@ -25,9 +11,9 @@ const DATA: IWord[] = [
 })
 export class AllWordsComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'synonyms'];
-  dataSource: IWord[] = DATA;
+  dataSource: IWord[] = [];
   totalWordsCount = 0;
-  pageSize = 10;
+  pageSize = 5;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25, 50, 100];
   showFirstLastButtons = true;

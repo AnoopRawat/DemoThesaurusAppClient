@@ -25,7 +25,7 @@ export class AddEditWordComponent implements OnInit {
     this.isEditMode = this.data.wordData != null;
     if (!this.isEditMode) {
       this.data.wordData = {
-        name: "",
+        name: this.data.wordToBeAdded,
         description: "",
         synonyms: []
       }

@@ -57,14 +57,15 @@ export class SearchWordComponent implements OnInit {
     });
   }
 
-  addNewWord() {
+  addNewWord(wordNameToAdd:string) {
     // open dialog for adding new word, so pass existind data as null
     const dialogRef = this.dialog.open(AddEditWordComponent, {
       width: '800px',
       height: '550px',
       disableClose: true,
       data: {
-        wordData: null
+        wordData: null,
+        wordToBeAdded: wordNameToAdd
       }
     });
     dialogRef.afterClosed().subscribe(response => {
