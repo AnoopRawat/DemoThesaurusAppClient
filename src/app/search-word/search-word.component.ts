@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { observable, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged, observeOn } from "rxjs/operators";
 import { map } from 'rxjs/operators';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -39,9 +39,9 @@ export class SearchWordComponent implements OnInit {
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(inputWord => {
         // api call
-        this.filteredWords = this.wordService.getSimilarWordsViaFuzzy(inputWord)
-          .pipe(map(words => words),
-        );
+        this.wordService.getSimilarWordsViaFuzzy(inputWord).subscribe(data =>{
+          this.filteredWords = data;
+        })
       });
   }
 
@@ -67,6 +67,7 @@ export class SearchWordComponent implements OnInit {
 
   searchWord(wordName: string) {
     this.wordToSearch = wordName;
+    this.filteredWords = [];
     if (!wordName || wordName.length < 2) {
       alert('Please enter word to search.. Minimum 2 letters.');
       return;

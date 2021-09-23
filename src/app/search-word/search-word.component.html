@@ -6,7 +6,7 @@
 
         <mat-icon style="float: right;cursor: pointer;" (click)="searchWord(wordToSearch)">search</mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)='searchWord($event.option.value)'>
-            <mat-option *ngFor="let word of filteredWords | async" [value]="word.name">
+            <mat-option *ngFor="let word of filteredWords" [value]="word.name">
                 {{word.name}}
             </mat-option>
         </mat-autocomplete>
@@ -34,7 +34,7 @@
 <mat-list *ngIf="wordSearchAndFound == 0" style="margin-top: 40px;">
     <mat-list-item style="font-size: 25px;color: orange;">No data found.</mat-list-item>
     <mat-list-item class="synonymMatList">
-        <h4 style="width: 160px;" *ngIf="similarWords.length > 0">Did you mean :</h4>
+        <h4 style="width: 160px;" *ngIf="similarWords && similarWords.length > 0">Did you mean :</h4>
         <mat-chip-list>
             <ng-container *ngFor="let word of similarWords">
                 <mat-chip color="primary" selected (click)="searchWord(word.name)">

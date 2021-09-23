@@ -13,7 +13,7 @@ export class AllWordsComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'synonyms'];
   dataSource: IWord[] = [];
   totalWordsCount = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25, 50, 100];
   showFirstLastButtons = true;
