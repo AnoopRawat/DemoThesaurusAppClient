@@ -6,28 +6,38 @@
     </mat-form-field>
 </form>
 
-<mat-list  *ngIf="wordSearchAndFound == -1" style="margin-top: 100px;">
-    <mat-list-item style="font-size: 17px;color: navy;">Welcome to Demo Thesaurus application. <br>
-        Search any word and we try to give you the definition and look-alikes (synonyms)... 
-        <mat-icon style="float: right;">sentiment_satisfied_alt</mat-icon>
+<mat-list *ngIf="wordSearchAndFound == -1" style="margin-top: 60px;min-height: 500px;">
+    <mat-list-item style="font-size: 25px;color: navy;">
+        Welcome to Demo Thesaurus application.
+    </mat-list-item>
+    <mat-list-item style="font-size: 25px;color: navy;">
+        Search any word and we try to give you the definition and look-alikes (synonyms)...
+    </mat-list-item><br><br><br><br><br><br>
+    <mat-list-item style="font-size: 15px;color: navy;">
+        Don't know meaning of Synonym ? &nbsp;&nbsp;<mat-icon>sentiment_dissatisfied</mat-icon>
+    </mat-list-item>
+    <mat-list-item style="font-size: 15px;color: navy;">
+        No worries, Let's start then by searching :&nbsp;&nbsp;
+        <a style="cursor: pointer;text-decoration: underline;" (click)="searchWord('Synonym')">Synonym</a>&nbsp;&nbsp;
+        <mat-icon>sentiment_satisfied_alt</mat-icon>
     </mat-list-item>
 </mat-list>
 
-<mat-list  *ngIf="wordSearchAndFound == 0" style="margin-top: 40px;">
-    <mat-list-item style="font-size: 25px;color: orange;">No data found for search.</mat-list-item>
+<mat-list *ngIf="wordSearchAndFound == 0" style="margin-top: 40px;">
+    <mat-list-item style="font-size: 25px;color: orange;">No data found.</mat-list-item>
 </mat-list>
 
 <mat-list *ngIf="wordSearchAndFound == 1" style="margin-top: 40px;">
-    <mat-list-item style="font-size: 30px">{{FoundWord}}</mat-list-item>
+    <mat-list-item style="font-size: 30px">{{foundWord.name}}</mat-list-item>
     <mat-divider style="margin-top: 20px;"></mat-divider>
     <mat-list-item class="synonymMatList">
-        <h4 style="width: 110px;">Description :&nbsp; &nbsp;</h4> {{FoundWordDescription}}
+        <h4 style="width: 110px;">Description :&nbsp; &nbsp;</h4> {{foundWord.description}}
     </mat-list-item>
     <mat-divider style="margin-top: 20px;"></mat-divider>
     <mat-list-item class="synonymMatList">
         <h4 style="width: 110px;">Synonyms :</h4>
         <mat-chip-list>
-            <ng-container *ngFor="let synonym of foundWordSynonyms">
+            <ng-container *ngFor="let synonym of foundWord.synonyms">
                 <mat-chip color="primary" selected (click)="searchWord(synonym.name)">
                     {{synonym.name}} &nbsp; &nbsp; &nbsp;
                 </mat-chip>
@@ -36,14 +46,14 @@
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item style="margin-top: 90px;">
-        <mat-slide-toggle class="example-margin" color="primary" [(ngModel)] = "showAdmin"> Admin Mode</mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="showAdmin"> Admin Mode</mat-slide-toggle>
         <ng-container *ngIf="showAdmin">
             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
             <button mat-raised-button color="primary" (click)="addNewWord()">Add New Word</button>
             &nbsp; &nbsp; &nbsp;
-            <button mat-raised-button color="accent" (click)="editCurrentWord()" >Edit Current Word</button>
+            <button mat-raised-button color="accent" (click)="editCurrentWord()">Edit Current Word</button>
             &nbsp; &nbsp; &nbsp;
-            <button mat-raised-button color="warn" (click)="deletCurrentWord()" >Delete Current Word</button>
+            <button mat-raised-button color="warn" (click)="deletCurrentWord()">Delete Current Word</button>
         </ng-container>
     </mat-list-item>
 </mat-list>

@@ -6,6 +6,7 @@ import { WordService } from '../services/word.service';
 
 const DATA: IWord[] = [
   { name: "word1", description: "decription", synonyms: [{ name: "synomys1" }, { name: "synonweym2" }] },
+
   { name: "word2", description: "decription of word", synonyms: [{ name: "synoasdasmys1" }, { name: "synonywewewm2" }] },
   { name: "word3", description: "decription of word", synonyms: [{ name: "synosdmys1" }, { name: "syeenonym2" }] },
   { name: "word4", description: "decription of word", synonyms: [{ name: "dmys1" }, { name: "synonym2" }, { name: "synonym2" }] },
@@ -28,30 +29,34 @@ export class AllWordsComponent implements OnInit {
   totalWordsCount = 0;
   pageSize = 10;
   pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
+  pageSizeOptions = [5, 10, 25, 50, 100];
   showFirstLastButtons = true;
 
   constructor(private interactionService: InteractionService, private wordService: WordService) { }
 
   ngOnInit(): void {
     // call for total count
+    this.RefreshWordsList();
+    this.interactionService.getEvent$.subscribe(event => {
+      if (event == "RefreshWordList") {
+        this.RefreshWordsList()
+      }
+    });
+  }
+
+  private RefreshWordsList() {
+    this.pageIndex = 0;
     this.wordService.getTotalWordsCount().subscribe((Response) => {
       console.log(Response);
       this.totalWordsCount = Response;
       // call for 1st page data.
       if (this.totalWordsCount > 0) {
-        this.wordService.getAllWordsByPage(0, this.pageSize).subscribe((response: IWord[]) => {
-          console.log(response);
-          this.dataSource = response;
-        }, (err) => {
-          console.log('Error while getting all stocks. See console for details.');
-          console.log(err);
-        });
+        this.getAllWordsByPage(0, this.pageSize);
       }
     }, (err) => {
       console.log('Error while getting total stocks count. See console for details.');
       console.log(err);
-    })
+    });
   }
 
   handlePageEvent(event: PageEvent) {
@@ -59,17 +64,17 @@ export class AllWordsComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     console.log(event);
-    this.wordService.getAllWordsByPage(this.pageIndex, this.pageSize).subscribe((response: IWord[]) => {
+    this.getAllWordsByPage(this.pageIndex, this.pageSize);
+  }
+
+  private getAllWordsByPage(pageIndex: number, pageSize: number) {
+    this.wordService.getAllWordsByPage(pageIndex, pageSize).subscribe((response: IWord[]) => {
       console.log(response);
       this.dataSource = response;
     }, (err) => {
       console.log('Error while getting all stocks. See console for details.');
       console.log(err);
     });
-  }
-
-  getServerData(event?: PageEvent) {
-    console.log("abc- ", event);
   }
 
   openSynonymAsWord(name: string) {

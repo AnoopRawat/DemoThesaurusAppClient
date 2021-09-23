@@ -16,12 +16,12 @@ export class WordService {
   constructor(private http: HttpClient) { }
 
   getTotalWordsCount() {
-    return this.http.get<number>(environment.backendUrl + 'api/words/totalCount', httpOptions);
+    return this.http.get<number>(environment.backendUrl + 'api/words/count', httpOptions);
   }
 
   getAllWordsByPage(pageIndex: number, pageSize: number): Observable<IWord[]> {
     var queryParam = {
-      pageIndex: pageIndex,
+      pageNumber: pageIndex + 1,
       pageSize: pageSize
     }
 
@@ -36,11 +36,11 @@ export class WordService {
     return this.http.post<IWord>(environment.backendUrl + 'api/words', word, httpOptions);
   }
 
-  updateWord(word: IWord) {
-    return this.http.put<IWord>(environment.backendUrl + 'api/portfolio', word, httpOptions);
+  updateWord(word: IWord, existingWordName: string) {
+    return this.http.put<IWord>(environment.backendUrl + `api/words/${existingWordName}`, word, httpOptions);
   }
 
   deleteWords(name: string) {
-    return this.http.delete<boolean>(environment.backendUrl + `api/portfolio/${name}`, httpOptions);
+    return this.http.delete<boolean>(environment.backendUrl + `api/words/${name}`, httpOptions);
   }
 }

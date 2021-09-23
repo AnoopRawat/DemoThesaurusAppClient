@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  backendUrl : 'cloud url....',
-  backendUrl_Dev_IIS : 'http://localhost:-----/',
-  backendUrl_Dev_Kestrel : 'https://localhost:-------/'
+  backendUrl : 'https://localhost:5001/',
+  backendUrl_Dev_IIS : 'https://localhost:5001/',
+  backendUrl_Dev_Kestrel : 'https://localhost:5001/'
 };
 
 /*
