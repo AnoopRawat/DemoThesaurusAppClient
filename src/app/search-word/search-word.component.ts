@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AddEditWordComponent } from '../add-edit-word/add-edit-word.component';
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { map } from 'rxjs/operators';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IWord, ISynonym } from '../interfaces/IWord';
+import { IWord } from '../interfaces/IWord';
+import { AddEditWordComponent } from '../add-edit-word/add-edit-word.component';
 import { InteractionService } from '../services/interaction.service';
 import { WordService } from '../services/word.service';
 
@@ -12,6 +16,9 @@ import { WordService } from '../services/word.service';
   styleUrls: ['./search-word.component.css']
 })
 export class SearchWordComponent implements OnInit {
+
+  wordToSearchChanged: Subject<string> = new Subject<string>();
+  filteredWords: any;
   showAdmin: boolean = true;
   wordToSearch: string = "";
   wordSearchAndFound: number = -1;
@@ -24,7 +31,17 @@ export class SearchWordComponent implements OnInit {
   constructor(private dialog: MatDialog,
     private interactionService: InteractionService,
     private wordService: WordService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar) {
+    // check for auto-complete, make API call if value changed after 500ms.
+    this.wordToSearchChanged
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe(inputWord => {
+        // api call
+        this.filteredWords = this.wordService.getAllWordsByPage(0, 100)
+          .pipe(map(words => this.filter(words)),
+        )
+      });
+  }
 
   ngOnInit(): void {
     this.interactionService.getEvent$.subscribe(event => {
@@ -35,14 +52,24 @@ export class SearchWordComponent implements OnInit {
     });
   }
 
+  onFieldChange(inputWord: string) {
+    this.wordToSearchChanged.next(inputWord);
+  }
+
+  filter(words: IWord[]) {
+    console.log(words)
+    return words.filter(word => word.name.toLowerCase().includes(this.wordToSearch))
+  }
+
   searchWord(wordName: string) {
+    console.log(wordName);
     this.wordToSearch = wordName;
     if (!wordName || wordName.length < 2) {
       alert('Please enter word to search.. Minimum 2 letters.');
       return;
     }
 
-    this.wordService.getWordByName(wordName).subscribe((Response:IWord) => {
+    this.wordService.getWordByName(wordName).subscribe((Response: IWord) => {
       console.log(Response);
       if (Response != null) {
         this.foundWord = Response;
@@ -57,7 +84,7 @@ export class SearchWordComponent implements OnInit {
     });
   }
 
-  addNewWord(wordNameToAdd:string) {
+  addNewWord(wordNameToAdd: string) {
     // open dialog for adding new word, so pass existind data as null
     const dialogRef = this.dialog.open(AddEditWordComponent, {
       width: '800px',
@@ -105,7 +132,7 @@ export class SearchWordComponent implements OnInit {
       this.wordService.deleteWords(this.foundWord.name).subscribe((Response) => {
         console.log(Response);
         this.interactionService.AddEvent('RefreshWordList');
-        this.searchWord( this.foundWord.name);
+        this.searchWord(this.foundWord.name);
         var message = "Word deleted : " + this.foundWord.name;
         this.snackBar.open(message, "", {
           duration: 4000

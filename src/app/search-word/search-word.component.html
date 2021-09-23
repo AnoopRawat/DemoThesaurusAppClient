@@ -1,8 +1,29 @@
 <form class="example-form">
     <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Search word</mat-label>
-        <input matInput name="words" matInput [(ngModel)]="wordToSearch">
+        <input type="text" 
+        name="words" 
+        matInput 
+        [(ngModel)]="wordToSearch"
+        (ngModelChange)="onFieldChange($event)"
+        [matAutocomplete]="auto">
+
+
+        <!-- <input type="text"
+        placeholder="Pick one"
+        aria-label="Number"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"> -->
+
+
         <mat-icon style="float: right;cursor: pointer;" (click)="searchWord(wordToSearch)">search</mat-icon>
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)='searchWord($event.option.value)'>
+            <mat-option *ngFor="let word of filteredWords | async" [value]="word.name">
+               {{word.name}}
+              </mat-option>
+          </mat-autocomplete>
     </mat-form-field>
 </form>
 
