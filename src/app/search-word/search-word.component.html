@@ -1,29 +1,15 @@
 <form class="example-form">
     <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Search word</mat-label>
-        <input type="text" 
-        name="words" 
-        matInput 
-        [(ngModel)]="wordToSearch"
-        (ngModelChange)="onFieldChange($event)"
-        [matAutocomplete]="auto">
-
-
-        <!-- <input type="text"
-        placeholder="Pick one"
-        aria-label="Number"
-        matInput
-        [formControl]="myControl"
-        [matAutocomplete]="auto"> -->
-
+        <input type="text" name="words" matInput [(ngModel)]="wordToSearch" (ngModelChange)="onFieldChange($event)"
+            [matAutocomplete]="auto">
 
         <mat-icon style="float: right;cursor: pointer;" (click)="searchWord(wordToSearch)">search</mat-icon>
-
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)='searchWord($event.option.value)'>
             <mat-option *ngFor="let word of filteredWords | async" [value]="word.name">
-               {{word.name}}
-              </mat-option>
-          </mat-autocomplete>
+                {{word.name}}
+            </mat-option>
+        </mat-autocomplete>
     </mat-form-field>
 </form>
 
@@ -39,18 +25,31 @@
     </mat-list-item>
     <mat-list-item style="font-size: 15px;color: navy;">
         No worries, Let's start then by searching word :&nbsp;&nbsp;
-        <a style="cursor: pointer;text-decoration: underline;" (click)="searchWord('Thesaurus')">Thesaurus</a>&nbsp;&nbsp;
+        <a style="cursor: pointer;text-decoration: underline;"
+            (click)="searchWord('Thesaurus')">Thesaurus</a>&nbsp;&nbsp;
         <mat-icon>sentiment_satisfied_alt</mat-icon>
     </mat-list-item>
 </mat-list>
 
 <mat-list *ngIf="wordSearchAndFound == 0" style="margin-top: 40px;">
     <mat-list-item style="font-size: 25px;color: orange;">No data found.</mat-list-item>
+    <mat-list-item class="synonymMatList">
+        <h4 style="width: 160px;" *ngIf="similarWords.length > 0">Did you mean :</h4>
+        <mat-chip-list>
+            <ng-container *ngFor="let word of similarWords">
+                <mat-chip color="primary" selected (click)="searchWord(word.name)">
+                    {{word.name}} &nbsp; &nbsp; &nbsp;
+                </mat-chip>
+            </ng-container>
+        </mat-chip-list>
+    </mat-list-item>
+
     <mat-list-item style="margin-top: 90px;">
         <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="showAdmin"> Admin Mode</mat-slide-toggle>
         <ng-container *ngIf="showAdmin">
             &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-            <button mat-raised-button color="primary" (click)="addNewWord(wordToSearch)">Add '{{wordToSearch}}' to thesaurus</button>
+            <button mat-raised-button color="primary" (click)="addNewWord(wordToSearch)">Add '{{wordToSearch}}' to
+                thesaurus</button>
         </ng-container>
     </mat-list-item>
 

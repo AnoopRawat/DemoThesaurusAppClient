@@ -28,6 +28,10 @@ export class WordService {
     return this.http.get<IWord[]>(environment.backendUrl + 'api/words', { params: queryParam, headers: httpOptions.headers });
   }
 
+  getSimilarWordsViaFuzzy(name: string): Observable<IWord[]> {
+    return this.http.get<IWord[]>(environment.backendUrl + `api/words/similar/${name}`, httpOptions);
+  }
+
   getWordByName(name: string) {
     return this.http.get<IWord>(environment.backendUrl + `api/words/${name}`, httpOptions);
   }

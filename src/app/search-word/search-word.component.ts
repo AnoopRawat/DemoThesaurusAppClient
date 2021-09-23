@@ -16,9 +16,11 @@ import { WordService } from '../services/word.service';
   styleUrls: ['./search-word.component.css']
 })
 export class SearchWordComponent implements OnInit {
-
+  // track searched word.
   wordToSearchChanged: Subject<string> = new Subject<string>();
   filteredWords: any;
+  similarWords: any;
+
   showAdmin: boolean = true;
   wordToSearch: string = "";
   wordSearchAndFound: number = -1;
@@ -37,9 +39,9 @@ export class SearchWordComponent implements OnInit {
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(inputWord => {
         // api call
-        this.filteredWords = this.wordService.getAllWordsByPage(0, 100)
-          .pipe(map(words => this.filter(words)),
-        )
+        this.filteredWords = this.wordService.getSimilarWordsViaFuzzy(inputWord)
+          .pipe(map(words => words),
+        );
       });
   }
 
@@ -57,12 +59,13 @@ export class SearchWordComponent implements OnInit {
   }
 
   filter(words: IWord[]) {
-    console.log(words)
-    return words.filter(word => word.name.toLowerCase().includes(this.wordToSearch))
+    if (words != null) {
+      return words.filter(word => word.name.toLowerCase().includes(this.wordToSearch))
+    }
+    return [];
   }
 
   searchWord(wordName: string) {
-    console.log(wordName);
     this.wordToSearch = wordName;
     if (!wordName || wordName.length < 2) {
       alert('Please enter word to search.. Minimum 2 letters.');
@@ -76,6 +79,11 @@ export class SearchWordComponent implements OnInit {
         this.wordSearchAndFound = 1;
       } else {
         this.wordSearchAndFound = 0;
+        this.wordService.getSimilarWordsViaFuzzy(wordName).subscribe((data) => {
+          this.similarWords = data;
+        }, (err) => {
+          console.log("Error for searching Similar words.", err)
+        })
       }
     }, (err) => {
       this.wordSearchAndFound = 0;
@@ -119,7 +127,7 @@ export class SearchWordComponent implements OnInit {
     dialogRef.afterClosed().subscribe(response => {
       if (response && response.result) {
         this.searchWord(response.wordName);
-        var message = "Word updated to : " + response.wordName;
+        var message = "Word updated : " + response.wordName;
         this.snackBar.open(message, "", {
           duration: 4000
         });

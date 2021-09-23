@@ -29,7 +29,7 @@ export class AddEditWordComponent implements OnInit {
         description: "",
         synonyms: []
       }
-    }else{
+    } else {
       this.existingWordName = this.data.wordData.name;
     }
   }
@@ -61,33 +61,40 @@ export class AddEditWordComponent implements OnInit {
       return;
     }
 
+    // add new word
     if (!this.isEditMode) {
       this.wordService.addWord(this.data.wordData).subscribe((Response) => {
         console.log(Response);
         this.interactionService.AddEvent('RefreshWordList');
         this.dialogRef.close({
           wordName: Response.name,
-          result : true
+          result: true
         });
       }, (err) => {
         console.log('Error while adding word. See console for details. ');
+        if (err.status == 409) {
+          alert('Word already exist.');
+          return;
+        }
         this.dialogRef.close({
-          result : false
+          result: false
         });
         console.log(err);
       });
-    } else {
+    }
+    // Edit esisting word.
+    else {
       this.wordService.updateWord(this.data.wordData, this.existingWordName).subscribe((Response) => {
         console.log(Response);
         this.interactionService.AddEvent('RefreshWordList');
         this.dialogRef.close({
           wordName: Response.name,
-          result : true
+          result: true
         });
       }, (err) => {
         console.log('Error while updating word. See console for details.')
         this.dialogRef.close({
-          result : false
+          result: false
         });
         console.log(err);
       });
