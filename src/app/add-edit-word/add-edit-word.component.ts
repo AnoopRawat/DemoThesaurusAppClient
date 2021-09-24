@@ -71,15 +71,14 @@ export class AddEditWordComponent implements OnInit {
           result: true
         });
       }, (err) => {
-        console.log('Error while adding word. See console for details. ');
+        console.log(err);
         if (err.status == 409) {
-          alert('Word already exist.');
+          alert(err.error);
           return;
         }
         this.dialogRef.close({
           result: false
         });
-        console.log(err);
       });
     }
     // Edit esisting word.
@@ -92,7 +91,7 @@ export class AddEditWordComponent implements OnInit {
           result: true
         });
       }, (err) => {
-        console.log('Error while updating word. See console for details.')
+        alert('Error while updating word. See console for details.')
         this.dialogRef.close({
           result: false
         });

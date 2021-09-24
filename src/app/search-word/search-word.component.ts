@@ -21,7 +21,7 @@ export class SearchWordComponent implements OnInit {
   filteredWords: any;
   similarWords: any;
 
-  showAdmin: boolean = true;
+  showAdmin: boolean = false;
   wordToSearch: string = "";
   wordSearchAndFound: number = -1;
   foundWord: IWord = {
@@ -147,7 +147,7 @@ export class SearchWordComponent implements OnInit {
           duration: 4000
         });
       }, (err) => {
-        console.log('Error while deleting word. See console for details. ')
+        alert('Error while deleting word. See console for details. ')
         console.log(err);
       });
     }

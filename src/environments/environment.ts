@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   backendUrl : 'https://localhost:5001/',
   backendUrl_Dev_IIS : 'https://localhost:5001/',
-  backendUrl_Dev_Kestrel : 'https://localhost:5001/'
+  backendUrl_Dev_Kestrel : 'https://localhost:5001/',
 };
 
 /*
