@@ -147,8 +147,7 @@ export class SearchWordComponent implements OnInit {
           duration: 4000
         });
       }, (err) => {
-        alert('Error while deleting word. See console for details. ')
-        console.log(err);
+        console.log('Error while deleting word.', err)
       });
     }
   }

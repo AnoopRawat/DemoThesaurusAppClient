@@ -91,7 +91,7 @@ export class AddEditWordComponent implements OnInit {
           result: true
         });
       }, (err) => {
-        alert('Error while updating word. See console for details.')
+        console.log('Error while updating word.')
         this.dialogRef.close({
           result: false
         });
@@ -99,5 +99,4 @@ export class AddEditWordComponent implements OnInit {
       });
     }
   }
-
 }

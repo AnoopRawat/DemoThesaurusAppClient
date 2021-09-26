@@ -40,7 +40,7 @@ export class AllWordsComponent implements OnInit {
         this.getAllWordsByPage(0, this.pageSize);
       }
     }, (err) => {
-      alert('Error while getting total stocks count. See console for details.');
+      console.log('Error while getting total stocks count.');
       console.log(err);
     });
   }
@@ -58,8 +58,7 @@ export class AllWordsComponent implements OnInit {
       console.log(response);
       this.dataSource = response;
     }, (err) => {
-      alert('Error while getting all stocks. See console for details.');
-      console.log(err);
+      console.log('Error while getting all stocks. See console for details.', err);
     });
   }
 
