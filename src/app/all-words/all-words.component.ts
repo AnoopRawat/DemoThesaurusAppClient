@@ -35,7 +35,6 @@ export class AllWordsComponent implements OnInit {
     this.pageIndex = 0;
     this.wordService.getTotalWordsCount().subscribe((Response) => {
       this.showProgressSpin = false;
-      console.log(Response);
       this.totalWordsCount = Response;
       // call for 1st page data.
       if (this.totalWordsCount > 0) {
@@ -57,7 +56,6 @@ export class AllWordsComponent implements OnInit {
 
   private getAllWordsByPage(pageIndex: number, pageSize: number) {
     this.wordService.getAllWordsByPage(pageIndex, pageSize).subscribe((response: IWord[]) => {
-      console.log(response);
       this.dataSource = response;
     }, (err) => {
       console.log('Error while getting all stocks. See console for details.', err);

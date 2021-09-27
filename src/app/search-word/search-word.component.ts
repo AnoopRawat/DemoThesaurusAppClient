@@ -74,7 +74,6 @@ export class SearchWordComponent implements OnInit {
     }
 
     this.wordService.getWordByName(wordName).subscribe((Response: IWord) => {
-      console.log(Response);
       if (Response != null) {
         this.foundWord = Response;
         this.wordSearchAndFound = 1;
@@ -139,7 +138,6 @@ export class SearchWordComponent implements OnInit {
   deletCurrentWord() {
     if (confirm("Note : Do you want to delete this word ? If yes, then operation can not be revert. !!")) {
       this.wordService.deleteWords(this.foundWord.name).subscribe((Response) => {
-        console.log(Response);
         this.interactionService.AddEvent('RefreshWordList');
         this.searchWord(this.foundWord.name);
         var message = "Word deleted : " + this.foundWord.name;

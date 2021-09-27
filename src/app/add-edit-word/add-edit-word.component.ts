@@ -64,7 +64,6 @@ export class AddEditWordComponent implements OnInit {
     // add new word
     if (!this.isEditMode) {
       this.wordService.addWord(this.data.wordData).subscribe((Response) => {
-        console.log(Response);
         this.interactionService.AddEvent('RefreshWordList');
         this.dialogRef.close({
           wordName: Response.name,
@@ -84,7 +83,6 @@ export class AddEditWordComponent implements OnInit {
     // Edit esisting word.
     else {
       this.wordService.updateWord(this.data.wordData, this.existingWordName).subscribe((Response) => {
-        console.log(Response);
         this.interactionService.AddEvent('RefreshWordList');
         this.dialogRef.close({
           wordName: Response.name,
