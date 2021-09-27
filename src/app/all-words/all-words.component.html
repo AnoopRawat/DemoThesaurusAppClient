@@ -1,44 +1,39 @@
-<div class="table-container">
-    <mat-spinner *ngIf="showProgressSpin"></mat-spinner>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
-    <!-- Columns -->
-    <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element;let i = index;"> {{i+1 + (pageIndex*pageSize)}} </td>
-    </ng-container>
+<mat-spinner *ngIf="showProgressSpin"></mat-spinner>
+<div class="table-container" *ngIf="!showProgressSpin">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+        <!-- Columns -->
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element;let i = index;"> {{i+1 + (pageIndex*pageSize)}} </td>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element" (click)="openSynonymAsWord(element.name)">
-           <a style="cursor: pointer;font-size: 20px;"> {{element.name}}</a>  
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element" (click)="openSynonymAsWord(element.name)">
+                <a style="cursor: pointer;font-size: 20px;"> {{element.name}}</a>
             </td>
-    </ng-container>
+        </ng-container>
 
-    <ng-container matColumnDef="synonyms">
-        <th mat-header-cell *matHeaderCellDef> Synonyms </th>
-        <td mat-cell *matCellDef="let element">
-            <mat-chip-list>
-            <ng-container *ngFor="let synonym of element.synonyms">
-                <mat-chip class="all-word-chips"  color="primary" selected
-                (click)="openSynonymAsWord(synonym.name)">
-                    {{synonym.name}}
-                </mat-chip>
-            </ng-container>
-        </mat-chip-list>
-        </td>
-    </ng-container>
+        <ng-container matColumnDef="synonyms">
+            <th mat-header-cell *matHeaderCellDef> Synonyms </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-chip-list>
+                    <ng-container *ngFor="let synonym of element.synonyms">
+                        <mat-chip class="all-word-chips" color="primary" selected
+                            (click)="openSynonymAsWord(synonym.name)">
+                            {{synonym.name}}
+                        </mat-chip>
+                    </ng-container>
+                </mat-chip-list>
+            </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 </div>
-<mat-paginator
-    (page)="handlePageEvent($event)"
-    [length]="totalWordsCount"
-    [pageSize]="pageSize"
-    [showFirstLastButtons]="showFirstLastButtons"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageIndex]="pageIndex"
+<mat-paginator *ngIf="!showProgressSpin" (page)="handlePageEvent($event)" [length]="totalWordsCount" [pageSize]="pageSize"
+    [showFirstLastButtons]="showFirstLastButtons" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"
     aria-label="Select page">
 </mat-paginator>
