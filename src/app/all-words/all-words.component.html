@@ -1,4 +1,5 @@
 <div class="table-container">
+    <mat-spinner *ngIf="showProgressSpin"></mat-spinner>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
     <!-- Columns -->
     <ng-container matColumnDef="position">

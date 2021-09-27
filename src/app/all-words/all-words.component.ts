@@ -10,6 +10,7 @@ import { WordService } from '../services/word.service';
   styleUrls: ['./all-words.component.css']
 })
 export class AllWordsComponent implements OnInit {
+  showProgressSpin: boolean = true;
   displayedColumns: string[] = ['position', 'name', 'synonyms'];
   dataSource: IWord[] = [];
   totalWordsCount = 0;
@@ -33,6 +34,7 @@ export class AllWordsComponent implements OnInit {
   private RefreshWordsList() {
     this.pageIndex = 0;
     this.wordService.getTotalWordsCount().subscribe((Response) => {
+      this.showProgressSpin = false;
       console.log(Response);
       this.totalWordsCount = Response;
       // call for 1st page data.
